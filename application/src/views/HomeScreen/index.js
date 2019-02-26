@@ -1,10 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-const HomeScreen = () => (
-  <View>
+import { withAppContext } from 'store';
+
+const HomeScreen = ({ data }) => (
+  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <Text>HomeScreen tétine!</Text>
   </View>
 );
 
-export default HomeScreen;
+export default withAppContext(HomeScreen);
+
+HomeScreen.propTypes = {
+  data: PropTypes.object,
+};

@@ -4,7 +4,11 @@ const { Provider, Consumer } = React.createContext();
 
 class AppProvider extends React.Component {
   state = {
-    isLogged: false
+    isLogged: false,
+    handleChangeLogged: () => {
+      const { isLogged } = this.state;
+      this.setState({ isLogged: !isLogged });
+    }
   }
 
   render() {
@@ -18,9 +22,9 @@ class AppProvider extends React.Component {
 }
 
 export const withAppContext = (Component) => {
-  const ComponentWithContext = () => (
+  const ComponentWithContext = props => (
     <Consumer>
-      {value => <Component {...this.props} data={value} />}
+      {value => <Component {...props} data={value} />}
     </Consumer>
   );
   return ComponentWithContext;

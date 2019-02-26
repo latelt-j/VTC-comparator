@@ -1,31 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-import HomeScreen from 'views/HomeScreen';
-import LoginScreen from 'views/LoginScreen';
+import AuthNavigator from 'navigations/auth';
+import RootNavigator from 'navigations/root';
 
+import COLORS from 'styles/colors';
 import { Consumer, AppProvider } from './src/store';
 
-class App extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    const { data } = this.props;
-    console.log(nextProps.data, data);
-  }
+const App = ({ data }) => (
+  data.isLogged ? <RootNavigator /> : <AuthNavigator />
+);
 
-  render() {
-    console.log(this.props);
-    const { data } = this.props;
-    return data.isLogged ? <HomeScreen /> : <LoginScreen />;
-  }
-}
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    text: COLORS.isabeline,
+    primary: COLORS.lightRed,
+    placeholder: COLORS.lightRed,
+    accent: COLORS.isabeline,
+  },
+};
 
 export default React.forwardRef((props, ref) => (
-  <AppProvider>
-    <Consumer>
-      {ctx => <App {...props} data={ctx} ref={ref} />}
-    </Consumer>
-  </AppProvider>
+  <PaperProvider theme={theme}>
+    <AppProvider>
+      <Consumer>
+        {ctx => <App {...props} data={ctx} ref={ref} />}
+      </Consumer>
+    </AppProvider>
+  </PaperProvider>
 ));
 
 App.propTypes = {
