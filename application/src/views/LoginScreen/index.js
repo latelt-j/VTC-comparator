@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, ScrollView } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
 import { LinearGradient } from 'expo';
 import { withAppContext } from 'store';
+
+import TextInputForm from 'components/TextInputForm';
+import ButtonForm from 'components/ButtonForm';
 
 import COLORS from 'styles/colors';
 
@@ -33,38 +35,27 @@ class LoginScreen extends React.Component {
             </View>
             <Text style={{ fontSize: 25, color: COLORS.platinum }}>Connecte-toi pour continuer,</Text>
           </View>
-          <TextInput
-            style={{ width: 300, backgroundColor: 'transparent', color: COLORS.isabeline }}
-            placeholderColor={COLORS.isabeline}
-            selectionColor={COLORS.isabeline}
-            underlineColor={COLORS.isabeline}
-            label="Adresse email"
+          <TextInputForm
+            placeholder="Adresse email"
             value={text}
             onChangeText={e => this.setState({ text: e })}
           />
-          <TextInput
-            style={{ width: 300, backgroundColor: 'transparent', color: COLORS.white }}
-            placeholderColor={COLORS.isabeline}
-            selectionColor={COLORS.isabeline}
-            underlineColor={COLORS.isabeline}
-            label="Mot de passe"
+          <TextInputForm
+            placeholder="Mot de passe"
             value={text}
             onChangeText={e => this.setState({ text: e })}
           />
-          <Button
-            mode="outlined"
-            color={COLORS.platinum}
-            style={{ borderRadius: 15, borderWidth: 2, borderColor: COLORS.isabeline, marginTop: 55, width: 200, height: 50, alignItems: 'center', justifyContent: 'center' }}
-            onPress={() => console.log('Pressed')}
-          >
-            Connexion
-          </Button>
-          <Button
-            mode="text"
+          <ButtonForm
+            onPress={() => navigation.navigate('Home')}
+            type="outlined"
+            text="Connexion"
+            style={{ marginTop: 50 }}
+          />
+          <ButtonForm
             onPress={() => navigation.navigate('Register')}
-          >
-            Pas encore de compte?
-          </Button>
+            type="text"
+            text="Pas encore de compte?"
+          />
         </ScrollView>
       </LinearGradient>
     );

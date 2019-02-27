@@ -10,6 +10,9 @@ const RootNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
+    defaultNavigationOptions: {
+      gesturesEnabled: false,
+    },
     initialRouteName: 'Home',
   },
 );
