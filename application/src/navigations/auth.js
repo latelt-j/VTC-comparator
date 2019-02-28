@@ -27,7 +27,7 @@ const AuthNavigator = createStackNavigator(
     defaultNavigationOptions: {
       gesturesEnabled: false,
     },
-    initialRouteName: 'Intro',
+    initialRouteName: 'Root',
     transitionConfig: () => fadeIn(500),
   },
 );
