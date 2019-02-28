@@ -36,13 +36,12 @@ export default StyleSheet.create({
     height: 600,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F7F7F7',
     paddingTop: 15,
   },
   scrollableModalContent: {
     height: 600,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    backgroundColor: '#FFFFFF',
   },
 });
