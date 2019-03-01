@@ -33,8 +33,11 @@ const MyCustomMarkerView = () => (
   </View>
 );
 
-class HomeScreen extends React.Component {
+export default class HomeScreen extends React.Component {
   state = {
+    predictions: null,
+    addressStart: null,
+    addressEnd: null,
     onFocusStart: false,
     onFocusEnd: false,
     visibleModal: null,
@@ -82,8 +85,23 @@ class HomeScreen extends React.Component {
     this.setState({ visible: true });
   }
 
+  autoComplete = (address) => {
+    fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${address}&key=AIzaSyAsrcPtUFJsGSIVm71L4AlxzDUA27tsV18`).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          this.setState({ predictions: json.predictions });
+        });
+      }
+    });
+  }
+
+  onChangeHandler = (address) => {
+    this.setState({ addressStart: address });
+    this.autoComplete(address);
+  }
+
   render() {
-    const { location, address, visible, minZoomLevel, onFocusStart, onFocusEnd } = this.state;
+    const { location, address, visible, minZoomLevel, onFocusStart, onFocusEnd, predictions } = this.state;
     return (
       location
       && (
@@ -156,7 +174,7 @@ class HomeScreen extends React.Component {
                       </View>
                       <View>
                         <Text style={[{ fontSize: 12, color: COLORS.davysgrey, marginVertical: 2 }, onFocusStart && { color: COLORS.orange }]}>LIEU DE RAMASSAGE</Text>
-                        <TextInput onFocus={() => this.setState({ onFocusStart: true, onFocusEnd: false })} style={{ marginVertical: 2 }} placeholder="Votre adresse actuelle" placeholderTextColor={COLORS.silverCalice} value={this.state.text} />
+                        <TextInput onChangeText={(e) => this.onChangeHandler(e)} onFocus={() => this.setState({ onFocusStart: true, onFocusEnd: false })} style={{ marginVertical: 2 }} placeholder="Votre adresse actuelle" placeholderTextColor={COLORS.silverCalice} value={this.state.text} />
                       </View>
                     </View>
                     <View style={{ width: 150, height: 1, backgroundColor: COLORS.platinum, marginVertical: 5 }} />
@@ -172,6 +190,27 @@ class HomeScreen extends React.Component {
                       </View>
                     </View>
                   </View>
+                  <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+                    <Text style={{ color: COLORS.silverCalice, fontSize: 11 }}>RECHERCHES</Text>
+                    {
+                      predictions
+                        && (
+                          predictions.map(item => (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', height: 50 }}>
+                              <View style={{ height: '100%', width: 60, alignItems: 'center', justifyContent: 'center' }}>
+                                <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: COLORS.platinum, alignItems: 'center', justifyContent: 'center' }}>
+                                  <FontAwesome name="university" size={10} color={COLORS.silverCalice} />
+                                </View>
+                              </View>
+                              <View>
+                                <Text style={{ fontSize: 14 }}>{`${item.structured_formatting.main_text}`}</Text>
+                                <Text style={{ fontSize: 10, color: COLORS.silverCalice }}>{`${item.structured_formatting.secondary_text}`}</Text>
+                              </View>
+                            </View>
+                          ))
+                        )
+                    }
+                  </View>
                 </View>
               </ScrollView>
             </View>
@@ -181,8 +220,6 @@ class HomeScreen extends React.Component {
     );
   }
 }
-
-export default withAppContext(HomeScreen);
 
 HomeScreen.propTypes = {
   data: PropTypes.object,

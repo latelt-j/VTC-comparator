@@ -33,14 +33,14 @@ export default StyleSheet.create({
     margin: 0,
   },
   scrollableModal: {
-    height: 600,
+    height: 800,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     backgroundColor: '#F7F7F7',
     paddingTop: 15,
   },
   scrollableModalContent: {
-    height: 600,
+    height: 800,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
